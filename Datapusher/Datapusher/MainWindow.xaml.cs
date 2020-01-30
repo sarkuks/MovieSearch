@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,27 +21,57 @@ namespace Datapusher
     /// </summary>
     public partial class MainWindow : Window
     {
+        string path = "";
+        string data = "";
         public MainWindow()
         {
             InitializeComponent();
+            progress.IsEnabled = false;
+            progress.IsIndeterminate = false;
         }
 
-        private void InsertButton_Click(object sender, RoutedEventArgs e)
+        private async void InsertButton_Click(object sender, RoutedEventArgs e)
         {
+
             var fileDialog = new System.Windows.Forms.OpenFileDialog();
             var result = fileDialog.ShowDialog();
-            switch (result)
-            {
-                case System.Windows.Forms.DialogResult.OK:
-                    var file = fileDialog.FileName;
-                    
-                    break;
-                case System.Windows.Forms.DialogResult.Cancel:
-                default:
-                    
-                    break;
-            }
+            path = fileDialog.FileName;
+            progress.IsEnabled = true;
+            progress.IsIndeterminate = true;
+            progress.IsEnabled = true;
+            progress.IsIndeterminate = true;
+            Task<string> task=GetFileAsync();
+            txtBlock.Text = await task;
+            progress.IsEnabled = false;
+            progress.IsIndeterminate = false;
         }
+
+        private async Task<string> GetFileAsync() 
+        {
+            return await Task.Run(() => getFile());
+        }
+        private string getFile() 
+        {
+            data = "";
+            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (BufferedStream bs = new BufferedStream(fs))
+                {
+                    using (StreamReader sr = new StreamReader(bs))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            data += line;
+                            
+                        }
+                    }
+                }
+            }
+            
+            return data;
+        }
+
          
     }
 }

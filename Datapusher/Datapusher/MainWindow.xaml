@@ -9,8 +9,13 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="InsertButton" Grid.Column="1" Content="Insert" Width="80" Height="40" Click="InsertButton_Click" />
-        
+        <Button x:Name="InsertButton" Content="Insert" Height="40" Click="InsertButton_Click" Margin="98.2,208,129.6,172" Grid.Column="1" RenderTransformOrigin="0.5,0.5" >
+            
+        </Button>
+        <TextBlock x:Name="txtBlock" HorizontalAlignment="Left" Margin="38,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="55" Width="321"/>
+        <ProgressBar x:Name="progress" HorizontalAlignment="Left" Height="10" Margin="97,365,0,0" VerticalAlignment="Top" Width="205"/>
+
     </Grid>
 </Window>
